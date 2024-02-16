@@ -16,7 +16,8 @@ public class ProductController {
 
     @GetMapping("/products")
     private List<Product> getAllProduct(){
-        return new ArrayList<>();
+
+        return productService.getAllProducts();
     }
 
     @GetMapping("/products/{id}")
@@ -31,7 +32,7 @@ public class ProductController {
 
     @PutMapping("/products/{id}")
     private Product updateProduct(@PathVariable("id") Long id,@RequestBody ProductRequestSDto productRequestSDto){
-        return new Product();
+        return productService.updateProduct(id,productRequestSDto);
     }
 
     @DeleteMapping("/products/{id}")
