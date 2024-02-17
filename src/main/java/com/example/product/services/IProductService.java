@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 
 public interface IProductService {
-    public Product getSingleProduct(Long id);
+    public Product getSingleProduct(Long id) throws InavlidProductException;
 
     List<Product> getAllProducts();
 

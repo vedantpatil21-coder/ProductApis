@@ -3,10 +3,12 @@ package com.example.product.controller;
 import com.example.product.dtos.ProductRequestSDto;
 import com.example.product.models.Product;
 import com.example.product.services.IProductService;
+import com.example.product.services.InavlidProductException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -21,8 +23,23 @@ public class ProductController {
     }
 
     @GetMapping("/products/{id}")
-    private Product getProduct(@PathVariable("id") Long id){
-        return productService.getSingleProduct(id);
+    private ResponseEntity<ProductWrapper> getProduct(@PathVariable("id") Long id){
+        ResponseEntity<ProductWrapper> response;
+        try {
+            Product singleProduct = productService.getSingleProduct(id);
+            ProductWrapper productWrapper = new ProductWrapper(singleProduct,"Successfully reterive the data");
+            response= new ResponseEntity<>(productWrapper, HttpStatus.OK);
+
+
+        }catch (InavlidProductException e){
+            ProductWrapper productWrapper = new ProductWrapper(null,"Data not present");
+            response = new ResponseEntity<>(productWrapper,HttpStatus.INTERNAL_SERVER_ERROR);
+
+        }
+        return response;
+
+
+        //Product singleProduct = productService.getSingleProduct(id);
     }
 
     @PostMapping("/products")

@@ -37,7 +37,10 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product getSingleProduct(Long id) {
+    public Product getSingleProduct(Long id) throws InavlidProductException{
+        if(id>20){
+            throw new InavlidProductException();
+        }
 
         //https://fakestoreapi.com/products/1
         //RestTemplate restTemplate = new RestTemplate();
